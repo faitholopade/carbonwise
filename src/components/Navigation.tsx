@@ -1,12 +1,11 @@
 import { NavLink } from "@/components/NavLink";
-import { Upload, BarChart3, Globe, FileText, BookOpen } from "lucide-react";
+import { Upload, BarChart3, Globe, FileText } from "lucide-react";
 
 const navItems = [
   { to: "/", label: "Upload", icon: Upload },
   { to: "/compare", label: "Compare", icon: BarChart3 },
   { to: "/region-advisor", label: "Region Advisor", icon: Globe },
   { to: "/report", label: "Report", icon: FileText },
-  { to: "/expectations", label: "Expectations", icon: BookOpen },
 ];
 
 export function Navigation() {

@@ -8,7 +8,6 @@ import Upload from "./pages/Upload";
 import Compare from "./pages/Compare";
 import RegionAdvisor from "./pages/RegionAdvisor";
 import Report from "./pages/Report";
-import Expectations from "./pages/Expectations";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,7 +25,6 @@ const App = () => (
             <Route path="/compare" element={<Compare />} />
             <Route path="/region-advisor" element={<RegionAdvisor />} />
             <Route path="/report" element={<Report />} />
-            <Route path="/expectations" element={<Expectations />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
