@@ -1,136 +1,127 @@
-# 🌿 CarbonWise AI — Making AI Sustainability Visible
+# 🌿 CarbonWise AI — Measure → Optimize → Prove Sustainable AI  
+### A Hackathon Journey by Faith Olopade  
+**International hAIckathon 2025 — Theme: Reduced Inequalities & Climate Action**
 
 ---
 
-### 🎬 [Intro video placeholder]
-*(Insert your opening clip here — quick overview or title animation)*
+## 🎬 Introduction
+
+AI is powerful — but behind every model training or inference is energy consumption that few ever see.  
+**CarbonWise AI** is my attempt to make sustainability in AI *visible, measurable, and actionable*.  
+In this blog, I’ll walk you through the full system: from the problem that inspired it to the code, data, and tools that bring it to life.
+
+<video src="https://drive.google.com/uc?export=download&id=YOUR_INTRO_VIDEO_ID" width="100%" controls poster="thumbnails/intro.jpg">
+Your browser does not support the video tag.
+</video>
 
 ---
 
-## 🧭 Introduction
+## 💡 The Problem & The Solution
 
-Hi, I’m **Faith**, and this is **CarbonWise AI** — a project I built for the International hAIckathon 2025.
+AI workloads consume massive amounts of energy, yet developers rarely track their carbon footprint.  
+That gap means we can’t optimize what we can’t measure.  
 
-AI systems today are astonishingly capable, but they’re also astonishingly energy-hungry.  
-Most developers can tell you their model’s accuracy or latency, but not its carbon footprint.
+**CarbonWise AI** bridges that gap through:
+- a **Python SDK** that automatically measures energy (kWh), CO₂e emissions, latency, and Software Carbon Intensity (SCI);  
+- a **React dashboard** that visualizes before/after efficiency and generates PDF reports;  
+- a **Region Advisor** using **ASDI (Amazon Sustainability Data Initiative)** data to recommend greener compute regions;  
+- and optional integrations with **Hathora** (for cloud inference) and **ElevenLabs** (for voice summaries).
 
-CarbonWise AI changes that.
-
-It’s a **lightweight SDK and web dashboard** that helps teams **measure**, **optimize**, and **prove** the sustainability of their AI workloads — using open data, measurable metrics, and a focus on developer usability.
-
----
-
-## 💡 The Problem
-
-As models scale, their energy and carbon costs become invisible but significant.  
-Without visibility, optimization doesn’t happen — and sustainability becomes a guessing game.  
-Large companies can afford complex tracking tools, but most researchers, students, and small teams can’t.
+<video src="https://drive.google.com/uc?export=download&id=YOUR_PROBLEM_SOLUTION_VIDEO_ID" width="100%" controls poster="thumbnails/problem_solution.jpg">
+Your browser does not support the video tag.
+</video>
 
 ---
 
-## 🌍 The Solution
+## ⚙️ Running the Baseline & Optimized Scripts
 
-**CarbonWise AI** makes AI sustainability measurable and accessible.  
-It does four things really well:
+The journey starts locally — we measure two versions of a workload to see how small optimizations change its energy profile.
 
-1. **Measure:** A Python decorator (`@track`) automatically logs energy (kWh), CO₂e, latency, and Software Carbon Intensity (SCI) for any AI run.  
-2. **Optimize:** You can compare a “baseline” and an “optimized” configuration side-by-side to see the actual efficiency gains.  
-3. **Advise:** A Region Advisor powered by **ASDI (Amazon Sustainability Data Initiative)** suggests greener cloud regions or time windows.  
-4. **Prove:** You can export one-click PDF or audio reports — simple, visual proof of measurable improvement.
+Below, you’ll see both scripts running:
+- `examples_baseline.py` — simulating a standard AI run  
+- `examples_optimized.py` — using lighter precision and speculative decoding for efficiency  
 
-Everything runs locally, with optional integrations for **Hathora** (cloud inference) and **ElevenLabs** (voice summaries).
+As they run, **CodeCarbon** captures CPU and memory energy use, generating a log file: `run_log.jsonl`.
 
----
-
-### 🎥 [Problem & Solution video placeholder]
-*(Insert short clip summarizing the problem and showing the dashboard intro screen)*
+<video src="https://drive.google.com/uc?export=download&id=YOUR_BASELINE_OPTIMIZED_VIDEO_ID" width="100%" controls poster="thumbnails/baseline_optimized.jpg">
+Your browser does not support the video tag.
+</video>
 
 ---
 
-## ⚙️ Showing the System in Action
+## 📊 Uploading the JSONL & Comparing Results
 
-### Step 1 — Running the Baseline and Optimized Scripts
+Once both runs complete, I upload the JSONL log into the CarbonWise dashboard.  
+Immediately, I can see differences in **energy**, **CO₂e**, and **SCI (Wh/request)** side by side.
 
-To start, I run two scripts that simulate AI workloads:  
-`examples_baseline.py` and `examples_optimized.py`.  
-The baseline represents a typical unoptimized model, while the optimized version applies simulated efficiency techniques like quantization and speculative decoding.
-
-These runs generate a single log file, `run_log.jsonl`, containing energy use, CO₂e, latency, and SCI metrics.
-
-Each line in the file represents a recorded experiment.
+<video src="https://drive.google.com/uc?export=download&id=YOUR_UPLOAD_COMPARE_VIDEO_ID" width="100%" controls poster="thumbnails/upload_compare.jpg">
+Your browser does not support the video tag.
+</video>
 
 ---
 
-### 🎥 [Baseline and Optimized scripts demo placeholder]
-*(Insert screen recording of both scripts running and the terminal output)*
+## ☁️ Running the Hathora Integration
+
+To show portability, I tested CarbonWise on a **remote inference setup** using **Hathora**.  
+With a few environment variables and the same decorator, it tracks energy use even when running in the cloud.
+
+<video src="https://drive.google.com/uc?export=download&id=YOUR_HATHORA_VIDEO_ID" width="100%" controls poster="thumbnails/hathora_run.jpg">
+Your browser does not support the video tag.
+</video>
 
 ---
 
-### Step 2 — Uploading and Comparing Results
+## 📈 Uploading Again & Viewing Updated Comparisons
 
-Next, I open the **CarbonWise dashboard**, go to the **Upload** tab, and import `run_log.jsonl`.
+After the Hathora run, I re-upload the new `run_log.jsonl`.  
+Now the dashboard displays three distinct runs: **Baseline**, **Optimized**, and **Hathora**.  
+The visual differences tell the story — cloud runs, optimizations, and region-based guidance all in one interface.
 
-The **Compare** view automatically displays side-by-side charts showing:
-- Lower energy consumption  
-- Reduced CO₂e  
-- Shorter latency  
-- And a noticeably lower SCI score
-
-You can instantly see that the optimized configuration uses less energy per request — tangible proof that optimization efforts pay off.
+<video src="https://drive.google.com/uc?export=download&id=YOUR_UPLOAD_AFTER_HATHORA_VIDEO_ID" width="100%" controls poster="thumbnails/upload_after_hathora.jpg">
+Your browser does not support the video tag.
+</video>
 
 ---
 
-### 🎥 [Dashboard comparison placeholder]
-*(Show screen recording: upload log → charts update → SCI drop visible)*
+## 🔊 Integrating ElevenLabs for Audio Narration
+
+For accessibility and creative engagement, I integrated **ElevenLabs** to generate a **voice summary** of the report.  
+The same decorator logs this process as another run (`run_name="elevenlabs_tts"`), and the system outputs a short MP3 file summarizing sustainability results.
+
+<video src="https://drive.google.com/uc?export=download&id=YOUR_ELEVENLABS_RUN_VIDEO_ID" width="100%" controls poster="thumbnails/elevenlabs_run.jpg">
+Your browser does not support the video tag.
+</video>
 
 ---
 
-## ☁️ Step 3 — Integrating Hathora (Cloud Models)
+## 📢 Playing the Audio Output
 
-To demonstrate portability, I ran a batch of inference requests using **Hathora**, a cloud platform for low-latency AI deployments.
+Here’s a short preview of the AI-generated sustainability report narration.  
+It turns CarbonWise from a dashboard into an experience — combining **data**, **voice**, and **insight**.
 
-By wrapping those API calls with the same `@track` decorator, CarbonWise logs energy use and latency for cloud inference, right alongside local runs.
-
-When I upload the new log file, the dashboard shows the additional “Hathora” run in the same comparison — demonstrating consistent, cross-environment tracking.
-
----
-
-### 🎥 [Hathora run + new comparison placeholder]
-*(Show console running Hathora script → upload new JSONL → dashboard comparison with three runs)*
+<video src="https://drive.google.com/uc?export=download&id=YOUR_AUDIO_PLAYBACK_VIDEO_ID" width="100%" controls poster="thumbnails/elevenlabs_audio.jpg">
+Your browser does not support the video tag.
+</video>
 
 ---
 
-## 🔊 Step 4 — Adding ElevenLabs Voice Narration
+## 🧭 Closing Thoughts
 
-Finally, I wanted to make sustainability data more engaging and accessible.  
-So I integrated **ElevenLabs** to generate a short spoken summary of the results — an audio version of the PDF report.
+In just a few days, CarbonWise went from an idea to a working system that:
+- **Measures** real energy and CO₂e metrics,  
+- **Optimizes** through AI-driven improvements,  
+- **Proves** results via dashboards and PDF reports,  
+- **Advises** using ASDI open data,  
+- and **Engages** users with voice and cloud integrations.  
 
-Running the ElevenLabs script produces an MP3 file, `carbonwise_summary.mp3`, which reads out the key findings.
+It’s a complete, reproducible workflow that bridges AI and sustainability — **clear, creative, and measurable**.
 
----
+**Next steps:**  
+- Publish CarbonWise as a `pip` package.  
+- Add a Carbon Budget Mode and SCI CI-badge.  
+- Expand ASDI integration with live regional data.
 
-### 🎥 [ElevenLabs run placeholder]
-*(Show ElevenLabs script generating the MP3 and playback UI in the dashboard)*
-
----
-
-### 🔉 [Audio playback placeholder]
-*(Embed or link your audio file here — 5-10 seconds of playback)*
-
-> “Baseline energy was 0.39 kilowatt-hours, optimized energy was 0.24 kilowatt-hours — a 38% reduction. Region Advisor recommends Paris as a 70% cleaner alternative.”
-
----
-
-## 🧠 What’s Under the Hood
-
-| Component | Role |
-|------------|------|
-| **Python SDK (`tracker.py`)** | Logs runtime, energy, CO₂e, latency, SCI |
-| **React Dashboard** | Visualizes baseline vs optimized runs |
-| **ASDI Data** | Supplies grid carbon intensity values for region comparison |
-| **Report Engine** | Exports metrics to PDF |
-| **Hathora Integration** | Tracks cloud inference workloads |
-| **ElevenLabs Integration** | Generates AI-powered voice reports |
+Thanks for following along — and for helping make AI just a little bit greener.
 
 ---
 
@@ -149,3 +140,4 @@ flowchart TD
   A --> J[Hathora Cloud Models]
   J --> B
   G --> K[ElevenLabs Voice Summary]
+```
