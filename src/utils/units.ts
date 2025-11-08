@@ -33,3 +33,9 @@ export function co2AsKg(rec: any) {
 }
 export const pct = (base: number, opt: number) =>
   base > 1e-12 ? ((base - opt) / base) * 100 : 0;
+
+export const mean = (arr: number[]) =>
+  arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+
+export const fmt = (x: number, d = 1) =>
+  Number.isFinite(x) ? x.toFixed(d) : "—";

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useDataStore } from "@/store/useDataStore";
@@ -6,6 +6,7 @@ import { Download, FileText, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import html2pdf from "html2pdf.js";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { energyAsKWh, co2AsKg, pct, mean, fmt } from "@/utils/units";
 
 export default function Report() {
   const { runs } = useDataStore();
@@ -31,40 +32,70 @@ export default function Report() {
     }
   };
 
-  // Calculate summary metrics
-  const groupedData = runs.reduce((acc, run) => {
-    if (!acc[run.run_name]) {
-      acc[run.run_name] = {
-        name: run.run_name,
-        totalEnergy: 0,
-        totalCo2: 0,
-        totalLatency: 0,
-        count: 0,
-      };
-    }
-    acc[run.run_name].totalEnergy += run.energy_kwh;
-    acc[run.run_name].totalCo2 += run.co2e_kg;
-    acc[run.run_name].totalLatency += run.latency_ms;
-    acc[run.run_name].count += 1;
-    return acc;
-  }, {} as Record<string, any>);
+  // Choose labels robustly
+  const labels = Array.from(new Set(runs.map(r => r.run_name)));
+  const baselineLabel = labels.find(l => l.toLowerCase().includes('baseline')) ?? labels[0] ?? "baseline";
+  const optimizedLabel = labels.find(l => l.toLowerCase().includes('optimized') || l !== baselineLabel) ?? (labels[1] ?? "optimized");
 
-  const chartData = Object.values(groupedData).map((group: any) => ({
-    name: group.name,
-    'Energy (kWh)': (group.totalEnergy / group.count).toFixed(3),
-    'CO₂e (kg)': (group.totalCo2 / group.count).toFixed(3),
-  }));
+  // Calculate summary metrics using normalized units
+  const {
+    baseEnergyKWh, optEnergyKWh,
+    baseCO2Kg, optCO2Kg,
+    baseLatency, optLatency,
+    energyReductionPct, co2ReductionPct, latencyImprovementPct,
+    energyUnit, co2Unit,
+    chartData,
+  } = useMemo(() => {
+    const baseRuns = runs.filter(r => r.run_name === baselineLabel);
+    const optRuns = runs.filter(r => r.run_name === optimizedLabel);
 
-  const baseline = chartData.find(d => d.name.toLowerCase().includes('baseline'));
-  const optimized = chartData.find(d => d.name.toLowerCase().includes('optimized'));
-  
-  let improvements = null;
-  if (baseline && optimized) {
-    improvements = {
-      energy: ((1 - Number(optimized['Energy (kWh)']) / Number(baseline['Energy (kWh)'])) * 100).toFixed(1),
-      co2: ((1 - Number(optimized['CO₂e (kg)']) / Number(baseline['CO₂e (kg)'])) * 100).toFixed(1),
+    const baseEnergyKWh = mean(baseRuns.map(energyAsKWh));
+    const optEnergyKWh = mean(optRuns.map(energyAsKWh));
+    const baseCO2Kg = mean(baseRuns.map(co2AsKg));
+    const optCO2Kg = mean(optRuns.map(co2AsKg));
+    const baseLatency = mean(baseRuns.map(r => Number(r.latency_ms || 0)));
+    const optLatency = mean(optRuns.map(r => Number(r.latency_ms || 0)));
+
+    // Determine display units
+    const energyUnit = (baseEnergyKWh < 0.01 && optEnergyKWh < 0.01) ? "Wh" : "kWh";
+    const co2Unit = (baseCO2Kg < 0.01 && optCO2Kg < 0.01) ? "g" : "kg";
+
+    // Build chart data with appropriate units
+    const baseEnergyDisplay = energyUnit === "Wh" ? baseEnergyKWh * 1000 : baseEnergyKWh;
+    const optEnergyDisplay = energyUnit === "Wh" ? optEnergyKWh * 1000 : optEnergyKWh;
+    const baseCO2Display = co2Unit === "g" ? baseCO2Kg * 1000 : baseCO2Kg;
+    const optCO2Display = co2Unit === "g" ? optCO2Kg * 1000 : optCO2Kg;
+
+    const chartData = [
+      {
+        name: baselineLabel,
+        energy: baseEnergyDisplay,
+        co2: baseCO2Display,
+      },
+      {
+        name: optimizedLabel,
+        energy: optEnergyDisplay,
+        co2: optCO2Display,
+      },
+    ];
+
+    return {
+      baseEnergyKWh, optEnergyKWh,
+      baseCO2Kg, optCO2Kg,
+      baseLatency, optLatency,
+      energyReductionPct: pct(baseEnergyKWh, optEnergyKWh),
+      co2ReductionPct: pct(baseCO2Kg, optCO2Kg),
+      latencyImprovementPct: pct(baseLatency, optLatency),
+      energyUnit, co2Unit,
+      chartData,
     };
-  }
+  }, [runs, baselineLabel, optimizedLabel]);
+
+  const improvements = {
+    energy: fmt(energyReductionPct, 1),
+    co2: fmt(co2ReductionPct, 1),
+    latency: fmt(latencyImprovementPct, 1),
+  };
 
   const rubricMappings = [
     {
@@ -132,18 +163,16 @@ export default function Report() {
                   This report analyzes the carbon footprint of AI model inference across {runs.length} runs,
                   comparing baseline and optimized configurations to demonstrate potential emissions reductions.
                 </p>
-                {improvements && (
-                  <div className="grid grid-cols-2 gap-4 mt-4">
-                    <div className="p-4 bg-primary/5 rounded-lg">
-                      <p className="text-sm text-muted-foreground mb-1">Energy Savings</p>
-                      <p className="text-3xl font-bold text-primary">{improvements.energy}%</p>
-                    </div>
-                    <div className="p-4 bg-accent/5 rounded-lg">
-                      <p className="text-sm text-muted-foreground mb-1">CO₂ Reduction</p>
-                      <p className="text-3xl font-bold text-accent">{improvements.co2}%</p>
-                    </div>
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                  <div className="p-4 bg-primary/5 rounded-lg">
+                    <p className="text-sm text-muted-foreground mb-1">Energy Savings</p>
+                    <p className="text-3xl font-bold text-primary">{improvements.energy}%</p>
                   </div>
-                )}
+                  <div className="p-4 bg-accent/5 rounded-lg">
+                    <p className="text-sm text-muted-foreground mb-1">CO₂ Reduction</p>
+                    <p className="text-3xl font-bold text-accent">{improvements.co2}%</p>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -161,8 +190,8 @@ export default function Report() {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="Energy (kWh)" fill="hsl(var(--chart-1))" radius={[8, 8, 0, 0]} />
-                  <Bar dataKey="CO₂e (kg)" fill="hsl(var(--chart-2))" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="energy" name={`Energy (${energyUnit})`} fill="hsl(var(--chart-1))" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="co2" name={`CO₂e (${co2Unit})`} fill="hsl(var(--chart-2))" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
