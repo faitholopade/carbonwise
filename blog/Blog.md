@@ -34,7 +34,7 @@ Below, you’ll see both scripts running:
 
 As they run, **CodeCarbon** captures CPU and memory energy use, generating a log file: `run_log.jsonl`.
 
-<video src="[https://drive.google.com/uc?export=download&id=YOUR_BASELINE_OPTIMIZED_VIDEO_ID](https://drive.google.com/file/d/1fHRU9pzuHH43aLSEyKa67LJpdCOeAKch/view?usp=sharing)" width="100%"></video>
+Video: https://drive.google.com/file/d/1fHRU9pzuHH43aLSEyKa67LJpdCOeAKch/view?usp=sharing
 
 ---
 
@@ -43,9 +43,7 @@ As they run, **CodeCarbon** captures CPU and memory energy use, generating a log
 Once both runs complete, I upload the JSONL log into the CarbonWise dashboard.  
 Immediately, I can see differences in **energy**, **CO₂e**, and **SCI (Wh/request)** side by side.
 
-<video src="https://drive.google.com/uc?export=download&id=YOUR_UPLOAD_COMPARE_VIDEO_ID" width="100%" controls poster="thumbnails/upload_compare.jpg">
-Your browser does not support the video tag.
-</video>
+Video: https://drive.google.com/file/d/1_rRXEug7RrVbat7gWYiWWgoUXSg03zcV/view?usp=sharing
 
 ---
 
@@ -54,9 +52,7 @@ Your browser does not support the video tag.
 To show portability, I tested CarbonWise on a **remote inference setup** using **Hathora**.  
 With a few environment variables and the same decorator, it tracks energy use even when running in the cloud.
 
-<video src="https://drive.google.com/uc?export=download&id=YOUR_HATHORA_VIDEO_ID" width="100%" controls poster="thumbnails/hathora_run.jpg">
-Your browser does not support the video tag.
-</video>
+Video: https://drive.google.com/file/d/19GNpxNIZaTB9RRGq5JrXxj8CzE3g6V4n/view?usp=sharing
 
 ---
 
@@ -66,9 +62,7 @@ After the Hathora run, I re-upload the new `run_log.jsonl`.
 Now the dashboard displays three distinct runs: **Baseline**, **Optimized**, and **Hathora**.  
 The visual differences tell the story — cloud runs, optimizations, and region-based guidance all in one interface.
 
-<video src="https://drive.google.com/uc?export=download&id=YOUR_UPLOAD_AFTER_HATHORA_VIDEO_ID" width="100%" controls poster="thumbnails/upload_after_hathora.jpg">
-Your browser does not support the video tag.
-</video>
+Video: https://drive.google.com/file/d/1LZHY4m_Ui-nLqWuetAL1wQW6qre640zC/view?usp=sharing
 
 ---
 
@@ -77,9 +71,7 @@ Your browser does not support the video tag.
 For accessibility and creative engagement, I integrated **ElevenLabs** to generate a **voice summary** of the report.  
 The same decorator logs this process as another run (`run_name="elevenlabs_tts"`), and the system outputs a short MP3 file summarizing sustainability results.
 
-<video src="https://drive.google.com/uc?export=download&id=YOUR_ELEVENLABS_RUN_VIDEO_ID" width="100%" controls poster="thumbnails/elevenlabs_run.jpg">
-Your browser does not support the video tag.
-</video>
+Video: https://drive.google.com/file/d/1v6AqIC8TAvTgEd5Qp2jYIPpfWA-bVcrY/view?usp=sharing
 
 ---
 
@@ -88,9 +80,7 @@ Your browser does not support the video tag.
 Here’s a short preview of the AI-generated sustainability report narration.  
 It turns CarbonWise from a dashboard into an experience — combining **data**, **voice**, and **insight**.
 
-<video src="https://drive.google.com/uc?export=download&id=YOUR_AUDIO_PLAYBACK_VIDEO_ID" width="100%" controls poster="thumbnails/elevenlabs_audio.jpg">
-Your browser does not support the video tag.
-</video>
+Audio: https://drive.google.com/file/d/1oyf3Jze06jjdo86mjbXsul8AWs4E7ANw/view?usp=sharing
 
 ---
 
