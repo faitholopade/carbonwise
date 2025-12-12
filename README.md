@@ -1,61 +1,194 @@
-CarbonWise AI --- Measure → Optimize → Prove Sustainable AI
-International hAIckathon 2025 Submission
+# CarbonWise AI --- Measure → Optimize → Prove Sustainable AI
 
-CarbonWise AI was selected as the winner of the "Best Project Built with
-ElevenLabs" prize at the International hAIckathon 2025. The project also
-placed 6th overall out of more than 200 teams.
+### International hAIckathon 2025 Submission: https://www.global-haickathon.com/
 
-Theme: Reduced Inequalities & Climate Action
+CarbonWise AI was selected as the winner of the **Best Project Built
+with ElevenLabs** prize at the International hAIckathon 2025. 
+It also placed **6th overall** out of more than 200 global teams.
 
-Overview CarbonWise AI is a lightweight system designed to make AI
-sustainability measurable, actionable, and transparent. It includes a
-Python SDK for tracking the energy and carbon footprint of AI workloads
-and a React dashboard for visualizing improvements, identifying greener
-compute regions, and exporting evidence of impact.
+**Theme:** Reduced Inequalities & Climate Action
 
-Why It Was Built AI workloads are increasingly energy-intensive, yet
-most teams lack visibility into their carbon impact. CarbonWise AI makes
-sustainability a measurable engineering metric, helping teams understand
-and improve the environmental efficiency of their models.
+------------------------------------------------------------------------
 
-Core Functions 1. Measure: A Python decorator to log runtime, energy
-use, emissions, and SCI. 2. Optimize: Compare experimental variations
-and evaluate efficiency gains. 3. Prove: Visualize performance changes
-and export a PDF summary. 4. Advise: Recommend cloud regions using open
-ASDI data. 5. Extend: Integrations with Hathora and ElevenLabs.
+## Overview
 
-Technology Overview - Measurement: Python 3, CodeCarbon - Dashboard:
-React + TypeScript (Lovable, Vite, Tailwind, Recharts) - Data Source:
-ASDI (Amazon Sustainability Data Initiative) - Cloud Integration:
-Hathora - Voice Narration: ElevenLabs API - Reporting: HTML-to-PDF -
-Hosting: GitHub Pages, Vercel
+**CarbonWise AI** is a lightweight system designed to make AI
+sustainability **measurable, actionable, and transparent**. 
+It includes:
 
-Project Structure Backend (Python) - tracker.py: Core SDK -
-examples_baseline.py / examples_optimized.py: Demo runs -
-examples_hathora_client.py: Cloud inference example -
-examples_eleven_tts.py: Voice summary generation - cw_report.py: Report
-generation - region_advisor.py: Greener region recommendations -
-requirements.txt: Dependencies - run_log.jsonl: Output log
+-   A **Python SDK** for tracking energy use, runtime, and carbon
+    emissions 
+-   A **React dashboard** for visualizing improvements, comparing runs,
+    selecting greener regions, and exporting reports
 
-Frontend (React) - Upload run logs - Compare energy, emissions, and
-latency - Region Advisor insights - PDF report generation
+------------------------------------------------------------------------
 
-Getting Started Dashboard: npm install npm run dev
+## Purpose
 
-Sample Data: Upload backend/sample_run_log.jsonl
+AI systems are increasingly energy-intensive, and most teams lack
+visibility into their environmental impact.
+CarbonWise AI reframes sustainability as an engineering metric, similar
+to latency or accuracy.
 
-Generate Logs: python examples_baseline.py python examples_optimized.py
+------------------------------------------------------------------------
 
-Add‑Ons Hathora Cloud Integration: python
-backend/examples_hathora_client.py
+## Core Capabilities
 
-ElevenLabs Narration: python backend/examples_eleven_tts.py
+### 1. Measure
 
-SCI Metric SCI (Wh/request) = (energy_kwh × 1000) / max(requests, 1)
+The `@track` decorator logs: - Runtime
+- Energy (kWh)
+- CO₂e emissions
+- Software Carbon Intensity (SCI)
 
-Architecture The system combines the Python SDK, run logs, a React
-dashboard, ASDI data, and optional cloud or voice integrations.
+### 2. Optimize
 
-Closing Thoughts CarbonWise AI demonstrates that AI sustainability
-tracking can be simple, transparent, and measurable. The goal is to help
-teams make informed, responsible engineering decisions.
+Run and compare variations such as: - Quantization
+- Batching
+- Alternative decoding strategies
+
+### 3. Prove
+
+Visualize before/after performance and export a **PDF report** that
+summarises improvements.
+
+### 4. Advise
+
+Uses ASDI (Amazon Sustainability Data Initiative) to recommend cloud
+regions with lower carbon intensity.
+
+### 5. Extend
+
+Hackathon integrations: - Hathora for cloud inference
+- ElevenLabs for spoken sustainability summaries
+
+------------------------------------------------------------------------
+
+## Technology Stack
+
+  Layer               Tools
+  ------------------- ---------------------------------------------
+  Measurement         Python 3, CodeCarbon
+  Dashboard           Lovable
+  Data Source         ASDI
+  Cloud Integration   Hathora
+  Voice Narration     ElevenLabs API
+  Reporting           HTML-to-PDF
+  Hosting             GitHub Pages, Vercel
+
+------------------------------------------------------------------------
+
+## Project Structure
+
+### Backend (Python)
+
+-   `tracker.py` --- Core SDK
+-   `examples_baseline.py` & `examples_optimized.py` --- Example
+    workload runs
+-   `examples_hathora_client.py` --- Cloud inference example
+-   `examples_eleven_tts.py` --- Voice summary generation
+-   `cw_report.py` --- PDF + Markdown report generation
+-   `region_advisor.py` --- Cloud region recommendations
+-   `run_log.jsonl` --- Generated metrics log
+
+### Frontend (React)
+
+-   Upload metric logs
+-   Compare energy, emissions, and latency
+-   ASDI-based region recommendations
+-   Exportable PDF summary
+
+------------------------------------------------------------------------
+
+## Getting Started
+
+### Run the Dashboard
+
+``` bash
+npm install
+npm run dev
+```
+
+### Load Sample Data
+
+Upload:\
+`backend/sample_run_log.jsonl`
+
+### Generate New Logs
+
+``` bash
+cd backend
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+
+python examples_baseline.py
+python examples_optimized.py
+```
+
+------------------------------------------------------------------------
+
+## Optional Extensions
+
+### Hathora Cloud Integration
+
+``` bash
+python backend/examples_hathora_client.py
+```
+
+### ElevenLabs Voice Narration
+
+``` bash
+python backend/examples_eleven_tts.py
+```
+
+------------------------------------------------------------------------
+
+## Software Carbon Intensity (SCI)
+
+Formula:
+
+    SCI (Wh per request) = (energy_kwh × 1000) / max(requests, 1)
+
+Example log entry:
+
+``` json
+{
+  "run_id": "uuid",
+  "run_name": "optimized",
+  "energy_kwh": 0.58,
+  "co2e_kg": 0.27,
+  "latency_ms": 710,
+  "sci_wh_per_req": 580.0,
+  "meta": {"precision":"int4","region":"europe-west9"}
+}
+```
+
+------------------------------------------------------------------------
+
+## Architecture
+
+``` mermaid
+flowchart TD
+  A[User AI Code] --> B[CarbonWise SDK]
+  B --> C[run_log.jsonl]
+  C --> D[Dashboard]
+  D --> E[Compare View]
+  D --> F[Region Advisor]
+  D --> G[Report Export]
+  F --> H[ASDI Data]
+  G --> I[PDF Report]
+  A --> J[Hathora Cloud Models]
+  J --> B
+  G --> K[ElevenLabs Voice Summary]
+```
+
+------------------------------------------------------------------------
+
+## Closing Notes
+
+CarbonWise AI demonstrates that sustainable AI does not require heavy
+infrastructure.
+
+By making energy and emissions measurable, teams can make informed
+engineering decisions and reduce environmental impact.
